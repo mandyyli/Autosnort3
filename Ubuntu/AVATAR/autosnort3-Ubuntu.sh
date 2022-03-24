@@ -174,10 +174,11 @@ install_packages ${packages[@]}
 #this section involves a lot of html and json parsing from a couple of different websites in order to find the latest version of each software package
 #if the github api, the download pages, or the urls change, this script will likely break horribly. but that's a problem for future me.
 
-safec_latest_url=`curl --silent "https://api.github.com/repos/rurban/safeclib/releases/latest" | jq -r '.assets[0].browser_download_url'`
-safec_ver=`echo $safec_latest_url | cut -d"/" -f9 | cut -d"." -f1`
+safec_latest_url=`curl --silent "https://api.github.com/repos/rurban/safeclib/releases/latest" | jq -r '.assets[3].browser_download_url'`
+safec_ver=`echo $safec_latest_url | cut -d"/" -f9 | sed 's/.tar.bz2//'`
 
-gperftools_latest_url=`curl --silent "https://api.github.com/repos/gperftools/gperftools/releases/latest" | jq -r '.assets[0].browser_download_url'`
+gperftools_latest_url="https://github.com/gperftools/gperftools/releases/download/gperftools-2.9.1/gperftools-2.9.1.tar.gz"
+#`curl --silent "https://api.github.com/repos/gperftools/gperftools/releases/latest" | jq -r '.assets[0].browser_download_url'`
 gperftools_ver=`echo $gperftools_latest_url | cut -d"/" -f9 | sed 's/.tar.gz//'`
 
 boost_latest_ver=`curl --silent "https://www.boost.org/users/download/" | egrep "\-\ Current" | cut -d">" -f3 | cut -d" " -f1`
